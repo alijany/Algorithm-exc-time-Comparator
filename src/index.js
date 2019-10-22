@@ -70,3 +70,35 @@ async function exec() {
     $(this).prop("disabled", false);
     $(this).text('run');
 }
+
+appendAlgorithmsToList();
+editor.setValue(getCurrentAlgo());
+
+var newSeries = [];
+algorithms.forEach(algo => {
+    // if (algo.series) 
+    newSeries.push(algo.series);
+});
+chart.updateSeries(newSeries, false);
+
+$("#Ok").click(function () {
+    var key = $algoList.val();
+    editor.setValue(algorithms[key].main);
+    mainAlgorithm = key;
+
+    loopCount = $loopCount.val();
+});
+
+$("#Update").click(function () {
+    algorithms[mainAlgorithm].main = editor.getValue();
+    $("#Update").prop("disabled", true);
+    $("#Update").html('Update');
+});
+
+editor.on("change", function () {
+    $("#Update").prop("disabled", false);
+    $("#Update").html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Update');
+});
+
+
+$("#Run").click(exec);
