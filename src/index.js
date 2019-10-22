@@ -37,3 +37,36 @@ function appendAlgorithmsToList() {
     });
     $algoList.append($(temp));
 }
+
+
+function resetMainSeries() {
+    var newSeries = [];
+    algorithms[mainAlgorithm].series = { name: algorithms[mainAlgorithm].name, data: [] };
+    algorithms.forEach(algo => {
+        if (algo.series) {
+            newSeries.push(algo.series);
+        }
+    });
+    return newSeries;
+}
+
+function appendToChart(time, newSeries) {
+    algorithms[mainAlgorithm].series.data.push(time);
+    return chart.updateSeries(newSeries, false);
+}
+
+async function exec() {
+    $(this).prop("disabled", true);
+    $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> in process...');
+
+    var newSeries = resetMainSeries();
+    await sendToWorker(getCurrentAlgo());
+
+    for (let i = 0; i < loopCount; i++) {
+        var time = await sendToWorker();
+        await appendToChart(time.toFixed(3), newSeries);
+    }
+
+    $(this).prop("disabled", false);
+    $(this).text('run');
+}
