@@ -5,3 +5,4 @@ import 'bootstrap/js/dist/collapse';
 
 import {chart} from './lib/chart';
 import {editor} from './lib/editor';
+import { algorithms } from './algorithms/algorithmsLoader';
