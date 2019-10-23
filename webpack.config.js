@@ -17,7 +17,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: 'src/[name].[contentHash].bundle.js'
+    filename: 'src/[name].bundle.js'
   },
   devServer: {
     contentBase: './public',
@@ -80,7 +80,7 @@ module.exports = {
   externals: {
   },
   plugins: [
-    new MiniCssExtractPlugin({ filename: 'assets/css/[name].[contentHash].css' }),
+    new MiniCssExtractPlugin({ filename: 'assets/css/[name].css' }),
     new CleanWebpackPlugin(),
     new webpack.ProvidePlugin({
       "$": 'jquery',
