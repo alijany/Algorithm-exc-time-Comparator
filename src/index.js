@@ -85,21 +85,29 @@ $("#Ok").click(function () {
     loopCount = $loopCount.val();
 });
 
+var switchAlgorithm = false;
 $("#mainAlgorithm").on('click', 'a', function () {
     var key = this.getAttribute("data-val");
+    switchAlgorithm = true;
     editor.setValue(algorithms[key].main);
     mainAlgorithm = key;
+});
+
+editor.on("change", function () {
+    if (switchAlgorithm) {
+        switchAlgorithm = false;
+        $("#Update").prop("disabled", true);
+        $("#Update").html('Update');
+    } else {
+        $("#Update").prop("disabled", false);
+        $("#Update").html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Update');
+    }
 });
 
 $("#Update").click(function () {
     algorithms[mainAlgorithm].main = editor.getValue();
     $("#Update").prop("disabled", true);
     $("#Update").html('Update');
-});
-
-editor.on("change", function () {
-    $("#Update").prop("disabled", false);
-    $("#Update").html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Update');
 });
 
 
