@@ -35,14 +35,14 @@ module.exports = {
       // sass loader
       {
         test: /\.scss$/i,
-        // use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        // use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       // css loader 
       {
         test: /\.css$/i,
-        // use: [MiniCssExtractPlugin.loader, 'css-loader'],
-        use: ['style-loader', 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        // use: ['style-loader', 'css-loader'],
       },
       // javascript loader
       {
