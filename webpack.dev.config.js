@@ -1,5 +1,5 @@
 const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -11,7 +11,8 @@ const babelConfig = require('./babel.config.js');
 // const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 module.exports = {
-  mode: "production",
+  mode: "development",
+  devtool: 'source-map',
   entry: {
     main: './src/index.js'
   },
@@ -24,20 +25,24 @@ module.exports = {
   },
   module: {
     rules: [
+      // html loader
       {
         test: /\.html$/,
         use: {
           loader: 'html-loader'
         }
       },
+      // sass loader
       {
-        test: /\.scss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        test: /\.(scss)$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
+      // css loader 
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: ['style-loader', 'css-loader'],
       },
+      // javascript loader
       {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
@@ -46,10 +51,12 @@ module.exports = {
           options: babelConfig
         }
       },
+      // js workers
       {
         test: /\.worker\.js$/,
         use: { loader: 'worker-loader' }
       },
+      // image loader
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
@@ -62,6 +69,7 @@ module.exports = {
           },
         ],
       },
+      // font loader
       {
         test: /\.(woff|woff2|ttf|otf)$/,
         use: [
@@ -78,10 +86,14 @@ module.exports = {
     ],
   },
   externals: {
+    // lodash: '_'
   },
   plugins: [
+    // new MonacoWebpackPlugin({
+    //   languages: ["typescript", "javascript"],
+    // }),
     new MiniCssExtractPlugin({ filename: 'assets/css/[name].[contentHash].css' }),
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
     new webpack.ProvidePlugin({
       "$": 'jquery',
     }),
@@ -95,8 +107,8 @@ module.exports = {
 
   optimization: {
     minimizer: [
-      new OptimizeCssAssetsPlugin(),
-      new TerserPlugin()
+    //   new OptimizeCssAssetsPlugin(),
+    //   new TerserPlugin()
     ],
     runtimeChunk: {
       name: "main"
@@ -105,7 +117,7 @@ module.exports = {
       chunks: 'all',
       cacheGroups: {
         vendor: {
-          test: /node_modules/,
+          test: /node_modules/, // you may add "vendor.js" here if you want to
           name: "vendor",
           chunks: "initial",
           enforce: true

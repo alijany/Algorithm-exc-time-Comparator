@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm webpack-dev-server ",
+    "pro": "npx webpack-dev-server --config='webpack.dev.config.js'"
   },
   "keywords": [],
   "author": "mohammad hosein alijany mh.alijany@gmail.com",
