@@ -76,8 +76,8 @@ editor.setValue(getCurrentAlgo());
 
 var newSeries = [];
 algorithms.forEach(algo => {
-    // if (algo.series) 
-    newSeries.push(algo.series);
+    if (algo.series)
+        newSeries.push(algo.series);
 });
 chart.updateSeries(newSeries, false);
 
