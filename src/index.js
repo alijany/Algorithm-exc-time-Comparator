@@ -33,7 +33,7 @@ function getCurrentAlgo() {
 function appendAlgorithmsToList() {
     var temp = '';
     algorithms.forEach((algo, index) => {
-        temp += `<option value="${index}">${algo.name}</option>`
+        temp += `<a class="dropdown-item" data-val="${index}" href="#">${algo.name}</a>`
     });
     $algoList.append($(temp));
 }
@@ -82,11 +82,13 @@ algorithms.forEach(algo => {
 chart.updateSeries(newSeries, false);
 
 $("#Ok").click(function () {
-    var key = $algoList.val();
+    loopCount = $loopCount.val();
+});
+
+$("#mainAlgorithm").on('click', 'a', function () {
+    var key = this.getAttribute("data-val");
     editor.setValue(algorithms[key].main);
     mainAlgorithm = key;
-
-    loopCount = $loopCount.val();
 });
 
 $("#Update").click(function () {
