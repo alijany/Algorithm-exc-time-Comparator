@@ -2,7 +2,7 @@ algorithm = {
 
   initialize: function () {
     this.n = 0;
-    this.fibo = [46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 3524578];
+    this.fibo = [10000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000];
   },
 
   update: function () {
@@ -16,7 +16,6 @@ algorithm = {
   run: function () {
     var number = this.fibo[this.n];
     number = 5 * multiply(number, number);
-    if (this.isSquare(number + 4) || this.isSquare(number - 4))
-      return this.n;
+    return (this.isSquare(number + 4) || this.isSquare(number - 4))
   }
 };

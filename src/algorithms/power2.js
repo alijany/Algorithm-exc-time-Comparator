@@ -5,8 +5,7 @@ algorithm = {
     },
 
     update: function () {
-        this.pow += 2;
-        this.base = 2;
+        this.pow += 4;
     },
 
     power: function (base, n) {

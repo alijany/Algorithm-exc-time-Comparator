@@ -5,7 +5,7 @@ algorithm = {
     },
 
     update: function () {
-        this.pow += 2;
+        this.pow += 3;
     },
 
     run: function () {

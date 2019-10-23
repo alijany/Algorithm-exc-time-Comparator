@@ -2,7 +2,7 @@ algorithm = {
 
     initialize: function () {
         this.n = 0;
-        this.fibo = [6765, 75025, 832040, 9227465, 102334155, 1134903170, 12586269025, 139583862445, 1548008755920, 17167680177565];
+        this.fibo = [10000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000];
     },
 
     update: function () {
@@ -20,7 +20,8 @@ algorithm = {
             a = b;
             b = sum;
             if (sum == number)
-                console.log(number);
+                return true;
         } while (sum <= number);
+        return false;
     }
 };
