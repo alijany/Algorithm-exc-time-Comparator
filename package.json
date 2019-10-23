@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "mohammad hosein alijany mh.alijany@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.6.2",
