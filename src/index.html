@@ -36,7 +36,13 @@
             </div>
         </nav>
 
-        <div class="container-fluid flex-grow-1">
+        <div class="container-fluid flex-grow-1 position-relative">
+            <div id="loader" class="position-absolute  bg-light d-flex justify-content-center align-items-center">
+                <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
             <div class="row h-100 flex-nowrap overflow-auto">
                 <div class="col-lg-6 col-12 p-0 h-100 position-relative">
                     <div id="code" class="h-100 position-absolute"></div>

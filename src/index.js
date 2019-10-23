@@ -81,6 +81,8 @@ algorithms.forEach(algo => {
 });
 chart.updateSeries(newSeries, false);
 
+$("#loader").removeClass("d-flex").hide();
+
 $("#Ok").click(function () {
     loopCount = $loopCount.val();
 });

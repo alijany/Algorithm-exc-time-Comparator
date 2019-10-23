@@ -22,6 +22,13 @@
 
 @import "../../node_modules/bootstrap/scss/utilities";
 
+#loader {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
 
 .CodeMirror {
     font-size: 1.2em;
@@ -36,4 +43,3 @@
     max-height: 175px;
     overflow: auto;
 }
-
