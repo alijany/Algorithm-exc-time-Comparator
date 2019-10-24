@@ -79,6 +79,9 @@ algorithms.forEach(algo => {
 });
 chart.updateSeries(newSeries, false);
 
+
+// event listeners --------------
+
 $("#loader").removeClass("d-flex").hide();
 
 $("#Ok").click(function () {
