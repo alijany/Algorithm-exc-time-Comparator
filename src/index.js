@@ -56,8 +56,7 @@ function appendToChart(time, newSeries) {
 }
 
 async function exec() {
-    $(this).prop("disabled", true);
-    $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> in process...');
+    $(this).prop("disabled", true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> in process...');
 
     var newSeries = resetMainSeries();
     await sendToWorker(getCurrentAlgo());
@@ -67,8 +66,7 @@ async function exec() {
         await appendToChart(time.toFixed(3), newSeries);
     }
 
-    $(this).prop("disabled", false);
-    $(this).text('run');
+    $(this).prop("disabled", false).text('run');
 }
 
 appendAlgorithmsToList();
@@ -98,18 +96,15 @@ $("#mainAlgorithm").on('click', 'a', function () {
 editor.on("change", function () {
     if (switchAlgorithm) {
         switchAlgorithm = false;
-        $("#Update").prop("disabled", true);
-        $("#Update").html('Update');
+        $("#Update").prop("disabled", true).html('Update');
     } else {
-        $("#Update").prop("disabled", false);
-        $("#Update").html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Update');
+        $("#Update").prop("disabled", false).html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Update');
     }
 });
 
 $("#Update").click(function () {
     algorithms[mainAlgorithm].main = editor.getValue();
-    $("#Update").prop("disabled", true);
-    $("#Update").html('Update');
+    $("#Update").prop("disabled", true).html('Update');
 });
 
 
