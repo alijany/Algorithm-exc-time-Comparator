@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server ",
-    "pro": "webpack-dev-server --config='webpack.dev.config.js'"
+    "dev": "webpack-dev-server --config webpack.dev.config.js",
+    "pro": "webpack"
   },
   "keywords": [],
   "author": "mohammad hosein alijany mh.alijany@gmail.com",

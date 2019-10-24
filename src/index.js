@@ -8,7 +8,7 @@ import { editor } from './lib/editor';
 import { algorithms } from './algorithms/algorithmsLoader';
 
 import RunWorker from "./run.worker";
-const runWorker = new RunWorker();
+var runWorker;
 
 // ***************************
 function sendToWorker(massage) {
@@ -16,8 +16,11 @@ function sendToWorker(massage) {
     return new Promise(resolve => { sendToWorker.resolve = resolve });
 }
 
-runWorker.onmessage = function (response) {
-    sendToWorker.resolve(response.data);
+function createWorker() {
+    runWorker = new RunWorker();
+    runWorker.onmessage = function (response) {
+        sendToWorker.resolve(response.data);
+    };
 }
 // ***************************
 
@@ -25,6 +28,7 @@ var mainAlgorithm = 0;
 var $algoList = $("#mainAlgorithm");
 var $loopCount = $("#inputLoop");
 var loopCount = $loopCount.val();
+var spinner = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
 
 function getCurrentAlgo() {
     return algorithms[mainAlgorithm].main;
@@ -55,8 +59,14 @@ function appendToChart(time, newSeries) {
     return chart.updateSeries(newSeries, false);
 }
 
+function cancel() {
+    runWorker.terminate();
+    createWorker();
+    $(this).off('click').click(exec).html('Run');
+}
+
 async function exec() {
-    $(this).prop("disabled", true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> in process...');
+    $(this).off('click').click(cancel).html(spinner + 'Cancel');
 
     var newSeries = resetMainSeries();
     await sendToWorker(getCurrentAlgo());
@@ -66,12 +76,12 @@ async function exec() {
         await appendToChart(time.toFixed(3), newSeries);
     }
 
-    $(this).prop("disabled", false).text('run');
+    $(this).off('click').click(exec).text('Run');
 }
 
+createWorker() ;
 appendAlgorithmsToList();
 editor.setValue(getCurrentAlgo());
-
 var newSeries = [];
 algorithms.forEach(algo => {
     if (algo.series)
