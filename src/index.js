@@ -28,10 +28,19 @@ var $loopCount = $("#inputLoop");
 var mainAlgorithm = 0;
 var loopCount;
 var runWorker;
+var switchAlgorithm = false;
 var spinner = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+
+// algorithm functions -----
 
 function getCurrentAlgo() {
     return algorithms[mainAlgorithm].main;
+}
+
+function setCurrentAlgo(index) {
+    switchAlgorithm = true;
+    editor.setValue(algorithms[index].main);
+    mainAlgorithm = index;
 }
 
 function appendAlgorithmsToList() {
@@ -63,11 +72,11 @@ function appendToChart(time, newSeries) {
 function cancel() {
     runWorker.terminate();
     createWorker();
-    $(this).off('click').click(exec).html('Run');
+    $("#Run").off('click').click(exec).html('Run');
 }
 
 async function exec() {
-    $(this).off('click').click(cancel).html(spinner + 'Cancel');
+    $("#Run").off('click').click(cancel).html(spinner + ' Cancel');
 
     var newSeries = resetMainSeries();
     await sendToWorker(getCurrentAlgo());
@@ -77,7 +86,14 @@ async function exec() {
         await appendToChart(time.toFixed(3), newSeries);
     }
 
-    $(this).off('click').click(exec).text('Run');
+    $("#Run").off('click').click(exec).text('Run');
+}
+
+async function execAll() {
+    for (var index = 0; index < algorithms.length; index++) {
+        setCurrentAlgo(index);
+        await exec();
+    }
 }
 
 // initialize user interface ---
@@ -102,13 +118,12 @@ $("#Ok").click(function () {
     loopCount = $loopCount.val();
 });
 
-var switchAlgorithm = false;
 $("#mainAlgorithm").on('click', 'a', function () {
-    var key = this.getAttribute("data-val");
-    switchAlgorithm = true;
-    editor.setValue(algorithms[key].main);
-    mainAlgorithm = key;
+    var index = this.getAttribute("data-val");
+    setCurrentAlgo(index);
 });
+
+$("#run-all").on('click', execAll);
 
 editor.on("change", function () {
     if (switchAlgorithm) {
