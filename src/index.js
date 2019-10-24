@@ -29,9 +29,10 @@ var mainAlgorithm = 0;
 var loopCount;
 var runWorker;
 var switchAlgorithm = false;
+var series = [];
 var spinner = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
 
-// algorithm functions -----
+// editor functions -----
 
 function getCurrentAlgo() {
     return algorithms[mainAlgorithm].main;
@@ -51,6 +52,25 @@ function appendAlgorithmsToList() {
     $algoList.append($(temp));
 }
 
+function updateSeries() {
+    series = [];
+    algorithms.forEach(algo => {
+        if (algo.series)
+            series.push(algo.series);
+    });
+}
+
+function clearSeries() {
+    algorithms.forEach(algo => algo.series = undefined);
+    chart.updateSeries([], false);
+}
+
+// chart function -------
+function appendToChart(time) {
+    algorithms[mainAlgorithm].series.data.push(time);
+    return chart.updateSeries(series, false);
+}
+
 // execution function -----
 
 function resetMainSeries() {
@@ -61,12 +81,7 @@ function resetMainSeries() {
             newSeries.push(algo.series);
         }
     });
-    return newSeries;
-}
-
-function appendToChart(time, newSeries) {
-    algorithms[mainAlgorithm].series.data.push(time);
-    return chart.updateSeries(newSeries, false);
+    series = newSeries;
 }
 
 function cancel() {
@@ -78,12 +93,12 @@ function cancel() {
 async function exec() {
     $("#Run").off('click').click(cancel).html(spinner + ' Cancel');
 
-    var newSeries = resetMainSeries();
+    resetMainSeries();
     await sendToWorker(getCurrentAlgo());
 
     for (let i = 0; i < loopCount; i++) {
         var time = await sendToWorker();
-        await appendToChart(time.toFixed(3), newSeries);
+        await appendToChart(time.toFixed(3));
     }
 
     $("#Run").off('click').click(exec).text('Run');
@@ -102,12 +117,8 @@ loopCount = $loopCount.val();
 createWorker();
 appendAlgorithmsToList();
 editor.setValue(getCurrentAlgo());
-var newSeries = [];
-algorithms.forEach(algo => {
-    if (algo.series)
-        newSeries.push(algo.series);
-});
-chart.updateSeries(newSeries, false);
+updateSeries();
+chart.updateSeries(series, false);
 
 
 // event listeners --------------
@@ -124,6 +135,8 @@ $("#mainAlgorithm").on('click', 'a', function () {
 });
 
 $("#run-all").on('click', execAll);
+
+$("#clear-chart").on('click', clearSeries);
 
 editor.on("change", function () {
     if (switchAlgorithm) {
