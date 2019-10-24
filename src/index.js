@@ -8,7 +8,6 @@ import { editor } from './lib/editor';
 import { algorithms } from './algorithms/algorithmsLoader';
 
 import RunWorker from "./run.worker";
-var runWorker;
 
 // ***************************
 function sendToWorker(massage) {
@@ -24,10 +23,11 @@ function createWorker() {
 }
 // ***************************
 
-var mainAlgorithm = 0;
 var $algoList = $("#mainAlgorithm");
 var $loopCount = $("#inputLoop");
-var loopCount = $loopCount.val();
+var mainAlgorithm = 0;
+var loopCount;
+var runWorker;
 var spinner = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
 
 function getCurrentAlgo() {
@@ -42,6 +42,7 @@ function appendAlgorithmsToList() {
     $algoList.append($(temp));
 }
 
+// execution function -----
 
 function resetMainSeries() {
     var newSeries = [];
@@ -79,7 +80,10 @@ async function exec() {
     $(this).off('click').click(exec).text('Run');
 }
 
-createWorker() ;
+// initialize user interface ---
+
+loopCount = $loopCount.val();
+createWorker();
 appendAlgorithmsToList();
 editor.setValue(getCurrentAlgo());
 var newSeries = [];
