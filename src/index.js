@@ -13,7 +13,9 @@ import RunWorker from "./run.worker";
 // ***************************
 function sendToWorker(massage) {
     runWorker.postMessage(massage);
-    return new Promise(resolve => { sendToWorker.resolve = resolve });
+    return new Promise(resolve => {
+        sendToWorker.resolve = resolve
+    });
 }
 
 function createWorker() {
@@ -36,17 +38,21 @@ var spinner = '<span class="spinner-border spinner-border-sm" role="status" aria
 
 // editor functions -----
 
-function getCurrentAlgo() {
-    return algorithms[mainAlgorithm].main;
+function getAlgo(prop = "main") {
+    return algorithms[mainAlgorithm][prop];
 }
 
-function setCurrentAlgo(index) {
+function setAlgo(value, prop = "main") {
+    algorithms[mainAlgorithm][prop] = value;
+}
+
+function switchAlgo(index) {
     switchAlgorithm = true;
     editor.setValue(algorithms[index].main);
     mainAlgorithm = index;
 }
 
-function appendAlgorithmsToList() {
+function appendAlgoToList() {
     var temp = '';
     algorithms.forEach((algo, index) => {
         temp += `<a class="dropdown-item" data-val="${index}" href="#">${algo.name}</a>`
@@ -54,11 +60,15 @@ function appendAlgorithmsToList() {
     $algoList.append($(temp));
 }
 
-function addNewAlgorithm(name) {
-    var index = algorithms.push({ name: name, main: defaultAlgo, series: undefined });
+function newAlgo(name) {
+    var index = algorithms.push({
+        name: name,
+        main: defaultAlgo,
+        series: undefined
+    });
     $algoList.text("");
-    appendAlgorithmsToList();
-    setCurrentAlgo(index - 1);
+    appendAlgoToList();
+    switchAlgo(index - 1);
 }
 
 function updateSeries() {
@@ -83,7 +93,7 @@ function log(data, info, type = "") {
 
 // chart function -------
 function appendToChart(time) {
-    algorithms[mainAlgorithm].series.data.push(time);
+    getAlgo("series").data.push(time);
     return chart.updateSeries(series, false);
 }
 
@@ -91,7 +101,10 @@ function appendToChart(time) {
 
 function resetMainSeries() {
     var newSeries = [];
-    algorithms[mainAlgorithm].series = { name: algorithms[mainAlgorithm].name, data: [] };
+    setAlgo({
+        data: [],
+        name: getAlgo("name")
+    }, "series");
     algorithms.forEach(algo => {
         if (algo.series) {
             newSeries.push(algo.series);
@@ -110,7 +123,7 @@ async function exec() {
     $("#Run").off('click').click(cancel).html(spinner + ' Cancel');
 
     resetMainSeries();
-    await sendToWorker(getCurrentAlgo());
+    await sendToWorker(getAlgo());
     log(algorithms[mainAlgorithm].name, "time", "list-group-item-primary")
 
     for (let i = 0; i < loopCount; i++) {
@@ -124,7 +137,7 @@ async function exec() {
 
 async function execAll() {
     for (var index = 0; index < algorithms.length; index++) {
-        setCurrentAlgo(index);
+        switchAlgo(index);
         await exec();
     }
 }
@@ -132,8 +145,8 @@ async function execAll() {
 // initialize user interface ---
 
 createWorker();
-appendAlgorithmsToList();
-editor.setValue(getCurrentAlgo());
+appendAlgoToList();
+editor.setValue(getAlgo());
 updateSeries();
 chart.updateSeries(series, false);
 
@@ -148,7 +161,7 @@ $("#Ok").click(function () {
 
 $("#mainAlgorithm").on('click', 'a', function () {
     var index = this.getAttribute("data-val");
-    setCurrentAlgo(index);
+    switchAlgo(index);
 });
 
 $("#run-all").on('click', execAll);
@@ -157,7 +170,7 @@ $("#clear").on('click', clear);
 
 $("#new-algo").on('click', () => $("#new-algo-modal").modal("show"));
 
-$("#new-algo-ok").on('click', () => addNewAlgorithm($("#new-algo-name").val()));
+$("#new-algo-ok").on('click', () => newAlgo($("#new-algo-name").val()));
 
 $("#display-chart").on('click', () => {
     $("#chart-col").removeClass("d-none");
@@ -182,9 +195,8 @@ editor.on("change", function () {
 });
 
 $("#Update").click(function () {
-    algorithms[mainAlgorithm].main = editor.getValue();
+    setAlgo(editor.getValue(), "main");
     $("#Update").prop("disabled", true).html('Update');
 });
-
 
 $("#Run").click(exec);
