@@ -20,9 +20,11 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                 <div class="navbar-nav">
-                    <a id="run-all" class="nav-item nav-link" href="#">Run all</span></a>
-                    <a id="clear-chart" class="nav-item nav-link" href="#">Clear chart</span></a>
-                    <a class="nav-item nav-link disabled" href="#">Add new</span></a>
+                    <a id="run-all" class="nav-item nav-link" href="#">Run all</a>
+                    <a id="clear-chart" class="nav-item nav-link" href="#">Clear chart</a>
+                    <a class="nav-item nav-link disabled" href="#">Add new</a>
+                    <a id="display-chart" class="nav-item nav-link" href="#">Chart</a>
+                    <a id="display-output" class="nav-item nav-link" href="#">Output</a>
                 </div>
                 <div class="dropdown">
                     <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -43,13 +45,19 @@
                 </div>
             </div>
 
-            <div class="row h-100 flex-nowrap overflow-auto">
-                <div class="col-lg-6 col-12 p-0 h-100 position-relative">
+            <div class="row h-100 flex-nowrap">
+                <div class="col-lg-6 col-12 p-0 h-100">
                     <div id="code" class="h-100 position-absolute"></div>
                 </div>
 
-                <div class="col-lg-6 col-12 h-100 py-5 p-lg-5 ">
-                    <div id="chart" class="h-100 "></div>
+                <div id="chart-col" class="col-lg-6 col-12 py-5 p-lg-5 h-100">
+                    <div id="chart"></div>
+                </div>
+
+                <div id="output-col" class="d-none col-lg-6 col-12 h-100 overflow-auto">
+                    <ul class="list-group list-group-flush position-absolute py-5 p-lg-5">
+                        <!-- <li class="list-group-item">Dapibus ac facilisis in</li> -->
+                    </ul>
                 </div>
             </div>
         </div>

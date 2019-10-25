@@ -22,6 +22,6 @@ algorithm = {
     },
 
     run: function () {
-        return this.power(this.base, this.pow);
+        return `pow(${this.base},${this.pow}) = ` + this.power(this.base, this.pow);
     }
 };

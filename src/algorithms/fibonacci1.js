@@ -1,12 +1,12 @@
 algorithm = {
 
   initialize: function () {
-    this.n = 0;
-    this.fibo = [10000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000];
+    this.i = 0;
+    this.numbers = [10000000, 20000000, 30000000, 40000000, 50000000, 60000000, 70000000, 80000000, 90000000, 100000000];
   },
 
   update: function () {
-    this.n++;
+    this.i++;
   },
 
   isSquare: function (n) {
@@ -14,8 +14,11 @@ algorithm = {
   },
 
   run: function () {
-    var number = this.fibo[this.n];
+    var number = this.numbers[this.i];
     number = 5 * multiply(number, number);
-    return (this.isSquare(number + 4) || this.isSquare(number - 4))
+    if (this.isSquare(number + 4) || this.isSquare(number - 4))
+      return this.numbers[this.i] + " : is fibo";
+    else 
+      return this.numbers[this.i] + " : isn't fibo";
   }
 };

@@ -138,6 +138,16 @@ $("#run-all").on('click', execAll);
 
 $("#clear-chart").on('click', clearSeries);
 
+$("#display-chart").on('click', () => {
+    $("#chart-col").show();
+    $("#output-col").hide();
+});
+
+$("#display-output").on('click', () => {
+    $("#output-col").show();
+    $("#chart-col").hide();
+});
+
 editor.on("change", function () {
     if (switchAlgorithm) {
         switchAlgorithm = false;

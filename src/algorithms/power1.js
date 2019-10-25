@@ -14,6 +14,6 @@ algorithm = {
             power = multiply(power, this.base);
         }
 
-        return power;
+        return `pow(${this.base},${this.pow}) = ` + power;
     }
 };

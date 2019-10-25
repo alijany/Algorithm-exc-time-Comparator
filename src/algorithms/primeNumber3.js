@@ -21,7 +21,7 @@ algorithm = {
         var num = this.numbers[this.i];
         var limit = Math.sqrt(num);
         for (var i = 3; i < limit; i += 2)
-            if (num % i === 0) return false;
-        return num > 1;
+            if (num % i === 0) return num + " : isn't prime";
+        return num + " : is prime";
     }
 };
