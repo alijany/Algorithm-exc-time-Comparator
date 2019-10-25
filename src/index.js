@@ -61,15 +61,16 @@ function updateSeries() {
     });
 }
 
+// main functions --------
 function clear() {
     algorithms.forEach(algo => algo.series = undefined);
     chart.updateSeries([], false);
     $logList.text("");
 }
 
-function log(data, info) {
+function log(data, info, type = "") {
     var infoEl = `<span class="float-right">${info}</span>`
-    $logList.append(`<li class="list-group-item">${data + infoEl}</li>`);
+    $logList.append(`<li class="list-group-item ${type}">${data + infoEl}</li>`);
 }
 
 // chart function -------
@@ -102,6 +103,7 @@ async function exec() {
 
     resetMainSeries();
     await sendToWorker(getCurrentAlgo());
+    log("output", "time", "list-group-item-primary")
 
     for (let i = 0; i < loopCount; i++) {
         var { time, output } = await sendToWorker();
@@ -122,11 +124,11 @@ async function execAll() {
 // initialize user interface ---
 
 loopCount = $loopCount.val();
+$("#log-col").hide();
 createWorker();
 appendAlgorithmsToList();
 editor.setValue(getCurrentAlgo());
 updateSeries();
-$("#log-col").hide();
 chart.updateSeries(series, false);
 
 
