@@ -61,9 +61,10 @@ function updateSeries() {
     });
 }
 
-function clearSeries() {
+function clear() {
     algorithms.forEach(algo => algo.series = undefined);
     chart.updateSeries([], false);
+    $outputList.text("");
 }
 
 // chart function -------
@@ -99,7 +100,7 @@ async function exec() {
 
     for (let i = 0; i < loopCount; i++) {
         var { time, output } = await sendToWorker();
-        $outputList.append(`<li class="list-group-item">${output}</li>`);
+        $outputList.append(`<li class="list-group-item">${output} | time : ${time}</li>`);
         await appendToChart(time.toFixed(3));
     }
 
@@ -139,7 +140,7 @@ $("#mainAlgorithm").on('click', 'a', function () {
 
 $("#run-all").on('click', execAll);
 
-$("#clear-chart").on('click', clearSeries);
+$("#clear").on('click', clear);
 
 $("#display-chart").on('click', () => {
     $("#chart-col").show();
