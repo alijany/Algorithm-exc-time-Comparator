@@ -15,13 +15,17 @@ onmessage = function (event) {
         postMessage("algorithm initialized");
     } else {
         var startTime, endTime, time = 0;
+        var output;
 
         startTime = performance.now();
-        console.log(algo.run());
+        output = algo.run();
         endTime = performance.now();
 
         algo.update();
         time = endTime - startTime;
-        postMessage(time)
+        postMessage({
+            time: time,
+            output : output
+        });
     }
 }
