@@ -115,8 +115,8 @@ async function exec() {
 
     for (let i = 0; i < loopCount; i++) {
         var { time, output } = await sendToWorker();
-        log(output, time.toFixed(3));
-        await appendToChart(time.toFixed(3));
+        log(output, time.toFixed(1));
+        await appendToChart(time.toFixed(1));
     }
 
     $("#Run").off('click').click(exec).text('Run');
