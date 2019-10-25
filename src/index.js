@@ -25,7 +25,7 @@ function createWorker() {
 
 var $algoList = $("#mainAlgorithm");
 var $loopCount = $("#inputLoop");
-var $outputList = $("#output-list");
+var $logList = $("#log-list");
 var mainAlgorithm = 0;
 var loopCount;
 var runWorker;
@@ -64,7 +64,12 @@ function updateSeries() {
 function clear() {
     algorithms.forEach(algo => algo.series = undefined);
     chart.updateSeries([], false);
-    $outputList.text("");
+    $logList.text("");
+}
+
+function log(data, info) {
+    var infoEl = `<span class="float-right">${info}</span>`
+    $logList.append(`<li class="list-group-item">${data + infoEl}</li>`);
 }
 
 // chart function -------
@@ -100,7 +105,7 @@ async function exec() {
 
     for (let i = 0; i < loopCount; i++) {
         var { time, output } = await sendToWorker();
-        $outputList.append(`<li class="list-group-item">${output} | time : ${time}</li>`);
+        log(output, time.toFixed(3));
         await appendToChart(time.toFixed(3));
     }
 
@@ -121,7 +126,7 @@ createWorker();
 appendAlgorithmsToList();
 editor.setValue(getCurrentAlgo());
 updateSeries();
-$("#output-col").hide();
+$("#log-col").hide();
 chart.updateSeries(series, false);
 
 
@@ -144,11 +149,11 @@ $("#clear").on('click', clear);
 
 $("#display-chart").on('click', () => {
     $("#chart-col").show();
-    $("#output-col").hide();
+    $("#log-col").hide();
 });
 
-$("#display-output").on('click', () => {
-    $("#output-col").show();
+$("#display-log").on('click', () => {
+    $("#log-col").show();
     $("#chart-col").hide();
 });
 
