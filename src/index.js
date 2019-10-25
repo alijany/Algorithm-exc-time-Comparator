@@ -150,6 +150,9 @@ $("#clear").on('click', clear);
 $("#display-chart").on('click', () => {
     $("#chart-col").show();
     $("#log-col").hide();
+
+    if ($("#chart").css('min-height') == "15px")
+        chart.render();
 });
 
 $("#display-log").on('click', () => {
