@@ -124,7 +124,6 @@ async function execAll() {
 // initialize user interface ---
 
 loopCount = $loopCount.val();
-$("#log-col").hide();
 createWorker();
 appendAlgorithmsToList();
 editor.setValue(getCurrentAlgo());
@@ -150,16 +149,16 @@ $("#run-all").on('click', execAll);
 $("#clear").on('click', clear);
 
 $("#display-chart").on('click', () => {
-    $("#chart-col").show();
-    $("#log-col").hide();
+    $("#chart-col").removeClass("d-none");
+    $("#log-col").addClass("d-none");
 
     if ($("#chart").css('min-height') == "15px")
         chart.render();
 });
 
 $("#display-log").on('click', () => {
-    $("#log-col").show();
-    $("#chart-col").hide();
+    $("#log-col").removeClass("d-none");
+    $("#chart-col").addClass("d-none");
 });
 
 editor.on("change", function () {
