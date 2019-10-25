@@ -25,6 +25,7 @@ function createWorker() {
 
 var $algoList = $("#mainAlgorithm");
 var $loopCount = $("#inputLoop");
+var $outputList = $("#output-list");
 var mainAlgorithm = 0;
 var loopCount;
 var runWorker;
@@ -97,7 +98,8 @@ async function exec() {
     await sendToWorker(getCurrentAlgo());
 
     for (let i = 0; i < loopCount; i++) {
-        var time = await sendToWorker();
+        var { time, output } = await sendToWorker();
+        $outputList.append(`<li class="list-group-item">${output}</li>`);
         await appendToChart(time.toFixed(3));
     }
 
@@ -118,6 +120,7 @@ createWorker();
 appendAlgorithmsToList();
 editor.setValue(getCurrentAlgo());
 updateSeries();
+$("#output-col").hide();
 chart.updateSeries(series, false);
 
 
