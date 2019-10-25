@@ -6,6 +6,7 @@ import 'bootstrap/js/dist/collapse';
 import { chart } from './lib/chart';
 import { editor } from './lib/editor';
 import { algorithms } from './algorithms/algorithmsLoader';
+import defaultAlgo from '!!raw-loader!./algorithms/default.js';
 
 import RunWorker from "./run.worker";
 
@@ -27,7 +28,7 @@ var $algoList = $("#mainAlgorithm");
 var $loopCount = $("#inputLoop");
 var $logList = $("#log-list");
 var mainAlgorithm = 0;
-var loopCount;
+var loopCount = $loopCount.val();
 var runWorker;
 var switchAlgorithm = false;
 var series = [];
@@ -51,6 +52,13 @@ function appendAlgorithmsToList() {
         temp += `<a class="dropdown-item" data-val="${index}" href="#">${algo.name}</a>`
     });
     $algoList.append($(temp));
+}
+
+function addNewAlgorithm(name) {
+    var index = algorithms.push({ name: name, main: defaultAlgo, series: undefined });
+    $algoList.text("");
+    appendAlgorithmsToList();
+    setCurrentAlgo(index - 1);
 }
 
 function updateSeries() {
@@ -123,7 +131,6 @@ async function execAll() {
 
 // initialize user interface ---
 
-loopCount = $loopCount.val();
 createWorker();
 appendAlgorithmsToList();
 editor.setValue(getCurrentAlgo());
@@ -147,6 +154,10 @@ $("#mainAlgorithm").on('click', 'a', function () {
 $("#run-all").on('click', execAll);
 
 $("#clear").on('click', clear);
+
+$("#new-algo").on('click', () => $("#new-algo-modal").modal("show"));
+
+$("#new-algo-ok").on('click', () => addNewAlgorithm($("#new-algo-name").val()));
 
 $("#display-chart").on('click', () => {
     $("#chart-col").removeClass("d-none");

@@ -22,7 +22,7 @@
                 <div class="navbar-nav">
                     <a id="run-all" class="nav-item nav-link" href="#">Run all</a>
                     <a id="clear" class="nav-item nav-link" href="#">Clear</a>
-                    <a class="nav-item nav-link disabled" href="#">Add new</a>
+                    <a id="new-algo" class="nav-item nav-link" href="#">Add new</a>
                     <a id="display-chart" class="nav-item nav-link" href="#">Chart</a>
                     <a id="display-log" class="nav-item nav-link" href="#">Log</a>
                 </div>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div id="log-col" class="d-none col-lg-6 col-12 h-100 overflow-auto">
-                    <ul id="log-list" class="list-group list-group-flush position-absolute py-5 p-lg-5">
+                    <ul id="log-list" class="list-group position-absolute py-5 p-lg-5">
                     </ul>
                 </div>
             </div>
@@ -89,6 +89,27 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
                     <button type="button" id="Ok" data-dismiss="modal" class="btn btn-primary">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="new-algo-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Algorithm</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="inputLoop">enter new algorithm name</label>
+                        <input type="text" class="form-control" id="new-algo-name" placeholder="name ">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                    <button type="button" id="new-algo-ok" data-dismiss="modal" class="btn btn-primary">Ok</button>
                 </div>
             </div>
         </div>
