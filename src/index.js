@@ -103,7 +103,7 @@ async function exec() {
 
     resetMainSeries();
     await sendToWorker(getCurrentAlgo());
-    log("output", "time", "list-group-item-primary")
+    log(algorithms[mainAlgorithm].name, "time", "list-group-item-primary")
 
     for (let i = 0; i < loopCount; i++) {
         var { time, output } = await sendToWorker();
