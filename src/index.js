@@ -32,7 +32,7 @@ var $logList = $("#log-list");
 var mainAlgorithm = 0;
 var loopCount = $loopCount.val();
 var runWorker;
-var switchAlgorithm = false;
+var algorithmIsSwitched = false;
 var series = [];
 var spinner = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
 
@@ -47,7 +47,7 @@ function setAlgo(value, prop = "main") {
 }
 
 function switchAlgo(index) {
-    switchAlgorithm = true;
+    algorithmIsSwitched = true;
     editor.setValue(algorithms[index].main);
     mainAlgorithm = index;
 }
@@ -60,7 +60,7 @@ function appendAlgoToList() {
     $algoList.append($(temp));
 }
 
-function newAlgo(name) {
+function addAlgo(name) {
     var index = algorithms.push({
         name: name,
         main: defaultAlgo,
@@ -124,7 +124,7 @@ async function exec() {
 
     resetMainSeries();
     await sendToWorker(getAlgo());
-    log(algorithms[mainAlgorithm].name, "time", "list-group-item-primary")
+    log(getAlgo("name"), "time", "list-group-item-primary");
 
     for (let i = 0; i < loopCount; i++) {
         var { time, output } = await sendToWorker();
@@ -170,7 +170,7 @@ $("#clear").on('click', clear);
 
 $("#new-algo").on('click', () => $("#new-algo-modal").modal("show"));
 
-$("#new-algo-ok").on('click', () => newAlgo($("#new-algo-name").val()));
+$("#new-algo-ok").on('click', () => addAlgo($("#new-algo-name").val()));
 
 $("#display-chart").on('click', () => {
     $("#chart-col").removeClass("d-none");
@@ -186,8 +186,8 @@ $("#display-log").on('click', () => {
 });
 
 editor.on("change", function () {
-    if (switchAlgorithm) {
-        switchAlgorithm = false;
+    if (algorithmIsSwitched) {
+        algorithmIsSwitched = false;
         $("#Update").prop("disabled", true).html('Update');
     } else {
         $("#Update").prop("disabled", false).html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Update');
