@@ -59,22 +59,26 @@ function switchAlgo(index) {
 }
 
 function removeAlgo(index, el) {
-    debugger;
     algorithms.splice(index, 1);
+    
+    el.parent().remove();
+    $("#mainAlgorithm div").each((index, button) => {
+        $(button).data("val", index);
+    });
+
     if (index == currentAlgo) {
         currentAlgo = 0;
         switchAlgo(0);
     }
-    el.parent().remove();
 }
 
 function appendAlgoToList() {
     var temp = '';
     algorithms.forEach((algo, index) => {
         temp += `
-        <div class="btn-group w-100">
-            <button class="btn btn-light remove" data-val="${index}">&</button>
-            <button class="dropdown-item select" data-val="${index}">${algo.name}</button>
+        <div class="btn-group w-100" data-val="${index}">
+            <button class="btn btn-light remove">&#x1F5D1;</button>
+            <button class="dropdown-item select">${algo.name}</button>
         </div>
         `
     });
@@ -185,12 +189,12 @@ $("#Ok").click(function () {
 });
 
 $("#mainAlgorithm").on('click', '.select', function () {
-    var index = this.getAttribute("data-val");
+    var index = $(this).parent().data("val");
     switchAlgo(index);
 });
 
 $("#mainAlgorithm").on('click', '.remove', function () {
-    var index = this.getAttribute("data-val");
+    var index = $(this).parent().data("val");
     removeAlgo(index, $(this));
 });
 
