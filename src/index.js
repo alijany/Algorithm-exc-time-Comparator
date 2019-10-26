@@ -3,9 +3,15 @@ import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/collapse';
 
-import { chart } from './lib/chart';
-import { editor } from './lib/editor';
-import { algorithms } from './algorithms/algorithmsLoader';
+import {
+    chart
+} from './lib/chart';
+import {
+    editor
+} from './lib/editor';
+import {
+    algorithms
+} from './algorithms/algorithmsLoader';
 import defaultAlgo from '!!raw-loader!./algorithms/default.js';
 
 import RunWorker from "./run.worker";
@@ -29,7 +35,7 @@ function createWorker() {
 var $algoList = $("#mainAlgorithm");
 var $loopCount = $("#inputLoop");
 var $logList = $("#log-list");
-var mainAlgorithm = 0;
+var currentAlgo = 0;
 var loopCount = $loopCount.val();
 var runWorker;
 var algorithmIsSwitched = false;
@@ -39,25 +45,40 @@ var spinner = '<span class="spinner-border spinner-border-sm" role="status" aria
 // editor functions -----
 
 function getAlgo(prop = "main") {
-    return algorithms[mainAlgorithm][prop];
+    return algorithms[currentAlgo][prop];
 }
 
 function setAlgo(value, prop = "main") {
-    algorithms[mainAlgorithm][prop] = value;
+    algorithms[currentAlgo][prop] = value;
 }
 
 function switchAlgo(index) {
     algorithmIsSwitched = true;
     editor.setValue(algorithms[index].main);
-    mainAlgorithm = index;
+    currentAlgo = index;
+}
+
+function removeAlgo(index, el) {
+    debugger;
+    algorithms.splice(index, 1);
+    if (index == currentAlgo) {
+        currentAlgo = 0;
+        switchAlgo(0);
+    }
+    el.parent().remove();
 }
 
 function appendAlgoToList() {
     var temp = '';
     algorithms.forEach((algo, index) => {
-        temp += `<a class="dropdown-item" data-val="${index}" href="#">${algo.name}</a>`
+        temp += `
+        <div class="btn-group w-100">
+            <button class="btn btn-light remove" data-val="${index}">&</button>
+            <button class="dropdown-item select" data-val="${index}">${algo.name}</button>
+        </div>
+        `
     });
-    $algoList.append($(temp));
+    $algoList.html($(temp));
 }
 
 function addAlgo(name) {
@@ -127,7 +148,10 @@ async function exec() {
     log(getAlgo("name"), "time", "list-group-item-primary");
 
     for (let i = 0; i < loopCount; i++) {
-        var { time, output } = await sendToWorker();
+        var {
+            time,
+            output
+        } = await sendToWorker();
         log(output, time.toFixed(1));
         await appendToChart(time.toFixed(1));
     }
@@ -136,6 +160,7 @@ async function exec() {
 }
 
 async function execAll() {
+    clear();
     for (var index = 0; index < algorithms.length; index++) {
         switchAlgo(index);
         await exec();
@@ -159,9 +184,14 @@ $("#Ok").click(function () {
     loopCount = $loopCount.val();
 });
 
-$("#mainAlgorithm").on('click', 'a', function () {
+$("#mainAlgorithm").on('click', '.select', function () {
     var index = this.getAttribute("data-val");
     switchAlgo(index);
+});
+
+$("#mainAlgorithm").on('click', '.remove', function () {
+    var index = this.getAttribute("data-val");
+    removeAlgo(index, $(this));
 });
 
 $("#run-all").on('click', execAll);
