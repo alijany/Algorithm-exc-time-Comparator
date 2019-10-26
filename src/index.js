@@ -44,32 +44,28 @@ var spinner = '<span class="spinner-border spinner-border-sm" role="status" aria
 
 // editor functions -----
 
-function getAlgo(prop = "main") {
-    return algorithms[currentAlgo][prop];
+function getAlgo(prop = "main", index = currentAlgo) {
+    return algorithms[index][prop];
 }
 
-function setAlgo(value, prop = "main") {
-    algorithms[currentAlgo][prop] = value;
+function setAlgo(value, prop = "main", index = currentAlgo) {
+    algorithms[index][prop] = value;
 }
 
-function switchAlgo(index) {
+function changeAlgoTo(index) {
     algorithmIsSwitched = true;
     editor.setValue(algorithms[index].main);
     currentAlgo = index;
 }
 
-function removeAlgo(index, el) {
-    algorithms.splice(index, 1);
-    
-    el.parent().remove();
-    $("#mainAlgorithm div").each((index, button) => {
-        $(button).data("val", index);
-    });
-
-    if (index == currentAlgo) {
-        currentAlgo = 0;
-        switchAlgo(0);
-    }
+// ninja function :P
+function switchAlgo(index, el) {
+    var isVisible = getAlgo("visible", index) ? "-off" : "";
+    el.html(`<ion-icon name="eye${isVisible}"></ion-icon>`)
+        .next().prop('disabled', function (i, v) {
+            return !v;
+        });;
+    setAlgo(!isVisible, "visible", index);
 }
 
 function appendAlgoToList() {
@@ -77,7 +73,7 @@ function appendAlgoToList() {
     algorithms.forEach((algo, index) => {
         temp += `
         <div class="btn-group w-100" data-val="${index}">
-            <button class="btn btn-light remove">&#x1F5D1;</button>
+            <button class="btn btn-light remove"><ion-icon name="eye"></ion-icon></button>
             <button class="dropdown-item select">${algo.name}</button>
         </div>
         `
@@ -93,7 +89,7 @@ function addAlgo(name) {
     });
     $algoList.text("");
     appendAlgoToList();
-    switchAlgo(index - 1);
+    changeAlgoTo(index - 1);
 }
 
 function updateSeries() {
@@ -166,8 +162,10 @@ async function exec() {
 async function execAll() {
     clear();
     for (var index = 0; index < algorithms.length; index++) {
-        switchAlgo(index);
-        await exec();
+        if (getAlgo("visible", index)) {
+            changeAlgoTo(index);
+            await exec();
+        }
     }
 }
 
@@ -190,12 +188,13 @@ $("#Ok").click(function () {
 
 $("#mainAlgorithm").on('click', '.select', function () {
     var index = $(this).parent().data("val");
-    switchAlgo(index);
+    changeAlgoTo(index);
 });
 
-$("#mainAlgorithm").on('click', '.remove', function () {
+$("#mainAlgorithm").on('click', '.remove', function (e) {
+    e.stopPropagation();
     var index = $(this).parent().data("val");
-    removeAlgo(index, $(this));
+    switchAlgo(index, $(this));
 });
 
 $("#run-all").on('click', execAll);
