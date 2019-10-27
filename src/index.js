@@ -71,9 +71,10 @@ function switchAlgo(index, el) {
 function appendAlgoToList() {
     var temp = '';
     algorithms.forEach((algo, index) => {
+        var isVisible = algo.visible ? "" : "-slash";
         temp += `
         <div class="btn-group w-100" data-val="${index}">
-            <button class="btn btn-light remove"><i class="far fa-eye"></i></button>
+            <button class="btn btn-light remove"><i class="far fa-eye${isVisible}"></i></button>
             <button class="dropdown-item select">${algo.name}</button>
         </div>
         `
@@ -81,14 +82,13 @@ function appendAlgoToList() {
     $algoList.html($(temp));
 }
 
-function addAlgo(name) {
+function addAlgo(name, visible) {
     var index = algorithms.push({
         name: name,
         main: defaultAlgo,
         series: undefined,
-        visible: "true"
+        visible: visible
     });
-    $algoList.text("");
     appendAlgoToList();
     changeAlgoTo(index - 1);
 }
@@ -204,7 +204,7 @@ $("#clear").on('click', clear);
 
 $("#new-algo").on('click', () => $("#new-algo-modal").modal("show"));
 
-$("#new-algo-ok").on('click', () => addAlgo($("#new-algo-name").val()));
+$("#new-algo-ok").on('click', () => addAlgo($("#new-algo-name").val(), $("#new-algo-visible").is(':checked')));
 
 $("#display-chart").on('click', () => {
     $("#chart-col").removeClass("d-none");
