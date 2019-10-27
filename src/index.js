@@ -60,8 +60,8 @@ function changeAlgoTo(index) {
 
 // ninja function :P
 function switchAlgo(index, el) {
-    var isVisible = getAlgo("visible", index) ? "-off" : "";
-    el.html(`<ion-icon name="eye${isVisible}"></ion-icon>`)
+    var isVisible = getAlgo("visible", index) ? "-slash" : "";
+    el.html(`<i class="far fa-eye${isVisible}"></i>`)
         .next().prop('disabled', function (i, v) {
             return !v;
         });;
@@ -73,7 +73,7 @@ function appendAlgoToList() {
     algorithms.forEach((algo, index) => {
         temp += `
         <div class="btn-group w-100" data-val="${index}">
-            <button class="btn btn-light remove"><ion-icon name="eye"></ion-icon></button>
+            <button class="btn btn-light remove"><i class="far fa-eye"></i></button>
             <button class="dropdown-item select">${algo.name}</button>
         </div>
         `
@@ -85,7 +85,8 @@ function addAlgo(name) {
     var index = algorithms.push({
         name: name,
         main: defaultAlgo,
-        series: undefined
+        series: undefined,
+        visible: "true"
     });
     $algoList.text("");
     appendAlgoToList();

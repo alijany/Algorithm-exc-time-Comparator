@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Algorithm Design</title>
-    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <!-- <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script> -->
+    <script src="https://kit.fontawesome.com/173de00ba0.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -26,7 +27,9 @@
                     <a id="display-log" class="nav-item text-light nav-link" href="#">Log</a>
                 </div>
                 <div class="btn-group float-right">
-                    <button id="new-algo" type="button" class="btn btn-light"><ion-icon name="add"></ion-icon></button>
+                    <button id="new-algo" type="button" class="btn btn-light">
+                        <i class="far fa-plus-square"></i>
+                    </button>
                     <button class="btn btn-light dropdown-toggle " type="button" id="dropdownMenuButton"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Algorithms
@@ -34,7 +37,7 @@
                     <div class="dropdown ">
                         <div class="dropdown-menu dropdown-menu-right" id="mainAlgorithm"
                             aria-labelledby="dropdownMenuButton">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -67,7 +70,7 @@
 
     <div class="fixed-bottom">
         <button type="button" class="btn btn-primary m-3" data-toggle="modal"
-            data-target="#exampleModal">Settings</button>
+            data-target="#exampleModal"><i class="fas fa-cog"></i></button>
         <button type="button" id="Update" class="btn btn-primary" disabled>
             Update
         </button>

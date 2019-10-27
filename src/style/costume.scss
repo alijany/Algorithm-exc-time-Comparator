@@ -36,6 +36,15 @@
     width: 100%;
 }
 
+.CodeMirror-sizer {
+    margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+.CodeMirror-lines>div {
+    margin-bottom: 200px;
+}
+
 .list-group {
     left: 0;
     right: 0;
