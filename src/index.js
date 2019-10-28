@@ -3,15 +3,9 @@ import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/modal';
 import 'bootstrap/js/dist/collapse';
 
-import {
-    chart
-} from './lib/chart';
-import {
-    editor
-} from './lib/editor';
-import {
-    algorithms
-} from './algorithms/algorithmsLoader';
+import { chart } from './lib/chart';
+import { editor } from './lib/editor';
+import { algorithms } from './algorithms/algorithmsLoader';
 import defaultAlgo from '!!raw-loader!./algorithms/default.js';
 
 import RunWorker from "./run.worker";
@@ -62,9 +56,7 @@ function changeAlgoTo(index) {
 function switchAlgo(index, el) {
     var isVisible = getAlgo("visible", index) ? "-slash" : "";
     el.html(`<i class="far fa-eye${isVisible}"></i>`)
-        .next().prop('disabled', function (i, v) {
-            return !v;
-        });;
+        .next().prop('disabled', function (i, v) { return !v; });;
     setAlgo(!isVisible, "visible", index);
 }
 
@@ -128,9 +120,7 @@ function resetMainSeries() {
         name: getAlgo("name")
     }, "series");
     algorithms.forEach(algo => {
-        if (algo.series) {
-            newSeries.push(algo.series);
-        }
+        if (algo.series) newSeries.push(algo.series);
     });
     series = newSeries;
 }
@@ -149,10 +139,7 @@ async function exec() {
     log(getAlgo("name"), "time", "list-group-item-primary");
 
     for (let i = 0; i < loopCount; i++) {
-        var {
-            time,
-            output
-        } = await sendToWorker();
+        var { time, output } = await sendToWorker();
         log(output, time.toFixed(1));
         await appendToChart(time.toFixed(1));
     }
@@ -220,15 +207,15 @@ $("#display-log").on('click', () => {
 editor.on("change", function () {
     if (algorithmIsSwitched) {
         algorithmIsSwitched = false;
-        $("#Update").prop("disabled", true).html('Update');
+        $("#Update").prop("disabled", true).html('<i class="fas fa-check"></i>');
     } else {
-        $("#Update").prop("disabled", false).html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Update');
+        $("#Update").prop("disabled", false).html('<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>');
     }
 });
 
 $("#Update").click(function () {
     setAlgo(editor.getValue(), "main");
-    $("#Update").prop("disabled", true).html('Update');
+    $("#Update").prop("disabled", true).html('<i class="fas fa-check"></i>');
 });
 
 $("#run-mode").on("click", "a", function (e) {
