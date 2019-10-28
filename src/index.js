@@ -128,7 +128,7 @@ function resetMainSeries() {
 function cancel() {
     runWorker.terminate();
     createWorker();
-    $("#Run").off('click').click(exec).html('Run');
+    $("#Run").off('click').click(exec).html('<i class="fas fa-play"></i>');
 }
 
 async function exec() {
