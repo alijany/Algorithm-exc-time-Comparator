@@ -128,7 +128,7 @@ function resetMainSeries() {
 function cancel() {
     runWorker.terminate();
     createWorker();
-    $("#Run").off('click').click(exec).html('<i class="fas fa-play"></i>');
+    $("#Run").off('click').click(run).html('<i class="fas fa-play"></i>');
 }
 
 async function exec() {
@@ -144,7 +144,7 @@ async function exec() {
         await appendToChart(time.toFixed(1));
     }
 
-    $("#Run").off('click').click(exec).html('<i class="fas fa-play"></i>');
+    $("#Run").off('click').click(run).html('<i class="fas fa-play"></i>');
 }
 
 async function execAll() {
@@ -155,6 +155,11 @@ async function execAll() {
             await exec();
         }
     }
+}
+
+function run() {
+    if (runMode == "All") execAll();
+    else exec();
 }
 
 // initialize user interface ---
@@ -222,7 +227,4 @@ $("#run-mode").on("click", "a", function (e) {
     runMode = $(this).text();
 });
 
-$("#Run").click(() => {
-    if (runMode == "All") execAll();
-    else exec();
-});
+$("#Run").click(run);
