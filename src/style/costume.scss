@@ -36,6 +36,11 @@
     width: 100%;
 }
 
+.code-menu {
+    bottom: 0;
+    z-index: 1000;
+}
+
 .CodeMirror-sizer {
     margin-top: 2rem;
     margin-bottom: 0;

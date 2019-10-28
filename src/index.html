@@ -53,6 +53,25 @@
             <div class="row h-100 flex-nowrap">
                 <div class="col-lg-6 col-12 p-0 h-100">
                     <div id="code" class="h-100 position-absolute"></div>
+                    <div class="position-absolute code-menu">
+                        <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#exampleModal"><i
+                                class="fas fa-cog"></i></button>
+                        <button type="button" id="Update" class="btn btn-primary" disabled>
+                            <i class="fas fa-check"></i>
+                        </button>
+                
+                        <div class="btn-group dropup">
+                            <button id="Run" type="button" class="btn btn-primary"><i class="fas fa-play"></i></button>
+                            <button id="run-dropdown" type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <div id="run-mode" class="dropdown-menu" aria-labelledby="run-dropdown">
+                                <a class="dropdown-item" href="#">All</a>
+                                <a class="dropdown-item" href="#">Current</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="chart-col" class="col-lg-6 col-12 py-5 p-lg-5 h-100">
@@ -63,26 +82,6 @@
                     <ul id="log-list" class="list-group position-absolute py-5 p-lg-5">
                     </ul>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed-bottom">
-        <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#exampleModal"><i
-                class="fas fa-cog"></i></button>
-        <button type="button" id="Update" class="btn btn-primary" disabled>
-            <i class="fas fa-check"></i>
-        </button>
-
-        <div class="btn-group dropup">
-            <button id="Run" type="button" class="btn btn-primary"><i class="fas fa-play"></i></button>
-            <button id="run-dropdown" type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
-                <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <div id="run-mode" class="dropdown-menu" aria-labelledby="run-dropdown">
-                <a class="dropdown-item" href="#">All</a>
-                <a class="dropdown-item" href="#">Current</a>
             </div>
         </div>
     </div>
