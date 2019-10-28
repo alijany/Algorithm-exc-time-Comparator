@@ -21,7 +21,6 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                 <div class="navbar-nav">
-                    <a id="run-all" class="nav-item text-light nav-link" href="#">Run-all</a>
                     <a id="clear" class="nav-item text-light nav-link" href="#">Clear</a>
                     <a id="display-chart" class="nav-item text-light nav-link" href="#">Chart</a>
                     <a id="display-log" class="nav-item text-light nav-link" href="#">Log</a>
@@ -74,9 +73,19 @@
         <button type="button" id="Update" class="btn btn-primary" disabled>
             Update
         </button>
-        <button type="button" id="Run" class="btn btn-primary">
-            Run
-        </button>
+
+        <div class="btn-group dropup">
+            <button id="Run" type="button" class="btn btn-primary"><i class="fas fa-play"></i></button>
+            <button id="run-dropdown" type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                data-reference="parent">
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div id="run-mode" class="dropdown-menu" aria-labelledby="run-dropdown">
+                <a class="dropdown-item" href="#">All</a>
+                <a class="dropdown-item" href="#">Current</a>
+            </div>
+        </div>
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

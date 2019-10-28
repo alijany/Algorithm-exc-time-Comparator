@@ -38,9 +38,9 @@ var $logList = $("#log-list");
 var currentAlgo = 0;
 var loopCount = $loopCount.val();
 var runWorker;
+var runMode = 'current';
 var algorithmIsSwitched = false;
 var series = [];
-var spinner = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
 
 // editor functions -----
 
@@ -142,7 +142,7 @@ function cancel() {
 }
 
 async function exec() {
-    $("#Run").off('click').click(cancel).html(spinner + ' Cancel');
+    $("#Run").off('click').click(cancel).html('<i class="fas fa-stop"></i>');
 
     resetMainSeries();
     await sendToWorker(getAlgo());
@@ -157,7 +157,7 @@ async function exec() {
         await appendToChart(time.toFixed(1));
     }
 
-    $("#Run").off('click').click(exec).text('Run');
+    $("#Run").off('click').click(exec).html('<i class="fas fa-play"></i>');
 }
 
 async function execAll() {
@@ -198,8 +198,6 @@ $("#mainAlgorithm").on('click', '.remove', function (e) {
     switchAlgo(index, $(this));
 });
 
-$("#run-all").on('click', execAll);
-
 $("#clear").on('click', clear);
 
 $("#new-algo").on('click', () => $("#new-algo-modal").modal("show"));
@@ -233,4 +231,11 @@ $("#Update").click(function () {
     $("#Update").prop("disabled", true).html('Update');
 });
 
-$("#Run").click(exec);
+$("#run-mode").on("click", "a", function (e) {
+    runMode = $(this).text();
+});
+
+$("#Run").click(() => {
+    if (runMode == "All") execAll();
+    else exec();
+});
