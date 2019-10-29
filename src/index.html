@@ -21,9 +21,8 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                 <div class="navbar-nav">
-                    <a id="clear" class="nav-item text-light nav-link" href="#">Clear</a>
-                    <a id="display-chart" class="nav-item text-light nav-link" href="#">Chart</a>
-                    <a id="display-log" class="nav-item text-light nav-link" href="#">Log</a>
+                    <a href="#exampleModal" class="nav-item text-light nav-link" data-toggle="modal"
+                        data-target="#exampleModal"><i class="fas fa-cog"></i> Settings</a>
                 </div>
                 <div class="btn-group float-right">
                     <button id="new-algo" type="button" class="btn btn-light">
@@ -53,17 +52,16 @@
             <div class="row h-100 flex-nowrap">
                 <div class="col-lg-6 col-12 p-0 h-100">
                     <div id="code" class="h-100 position-absolute"></div>
-                    <div class="position-absolute code-menu">
-                        <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#exampleModal"><i
-                                class="fas fa-cog"></i></button>
-                        <button type="button" id="Update" class="btn mr-1 btn-primary" disabled>
+                    <div class="position-absolute panels-menu">
+                        <button type="button" id="Update" class="btn ml-3 my-3 btn-primary" disabled>
                             <i class="fas fa-check"></i>
                         </button>
-                
+
                         <div class="btn-group dropup">
                             <button id="Run" type="button" class="btn btn-primary"><i class="fas fa-play"></i></button>
-                            <button id="run-dropdown" type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                            <button id="run-dropdown" type="button"
+                                class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" data-reference="parent">
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <div id="run-mode" class="dropdown-menu" aria-labelledby="run-dropdown">
@@ -74,13 +72,24 @@
                     </div>
                 </div>
 
-                <div id="chart-col" class="col-lg-6 col-12 py-5 p-lg-5 h-100">
-                    <div id="chart"></div>
-                </div>
+                <div id="d-container" class="col-lg-6 col-12 h-100 p-0">
+                    <div id="chart-col" class="py-5 p-lg-5  h-100">
+                        <div id="chart"></div>
+                    </div>
 
-                <div id="log-col" class="d-none col-lg-6 col-12 h-100 overflow-auto">
-                    <ul id="log-list" class="list-group position-absolute py-5 p-lg-5">
-                    </ul>
+                    <div id="log-col" class="d-none h-100 overflow-auto position-relative">
+                        <ul id="log-list" class="list-group position-absolute py-5 p-lg-5">
+                        </ul>
+                    </div>
+
+                    <div class="position-absolute panels-menu">
+                        <button id="clear" type="button" class="btn btn-primary ml-3 my-3">
+                            <i class="fas fa-broom"></i>
+                        </button>
+                        <button id="d-mode" type="button" class="btn btn-primary">
+                            <i class="fas fa-terminal"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

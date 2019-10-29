@@ -196,18 +196,19 @@ $("#new-algo").on('click', () => $("#new-algo-modal").modal("show"));
 
 $("#new-algo-ok").on('click', () => addAlgo($("#new-algo-name").val(), $("#new-algo-visible").is(':checked')));
 
-$("#display-chart").on('click', () => {
-    $("#chart-col").removeClass("d-none");
-    $("#log-col").addClass("d-none");
+$("#d-mode").on('click', () => {
+    if ($("#chart-col").hasClass("d-none"))
+        $("#d-mode").html('<i class="fas fa-terminal"></i>')
+    else
+        $("#d-mode").html('<i class="far fa-chart-bar"></i>')
+
+    $("#log-col").toggleClass("d-none");
+    $("#chart-col").toggleClass("d-none");
 
     if ($("#chart").css('min-height') == "15px")
         chart.render();
 });
 
-$("#display-log").on('click', () => {
-    $("#log-col").removeClass("d-none");
-    $("#chart-col").addClass("d-none");
-});
 
 editor.on("change", function () {
     if (algorithmIsSwitched) {
