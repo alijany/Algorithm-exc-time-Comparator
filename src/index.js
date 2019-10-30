@@ -6,7 +6,7 @@ import 'bootstrap/js/dist/collapse';
 import { chart } from './lib/chart';
 import { editor } from './lib/editor';
 import { algorithms } from './algorithms/algorithmsLoader';
-import defaultAlgo from '!!raw-loader!./algorithms/default.js';
+import Algo_template from '!!raw-loader!./algorithms/default.js';
 
 import RunWorker from "./run.worker";
 
@@ -25,7 +25,7 @@ function createWorker() {
 
 var $algoList = $("#mainAlgorithm");
 var $loopCount = $("#inputLoop");
-var $logList = $("#log-list");
+// var $logList = $("#log-list");
 var currentAlgo = 0;
 var loopCount = $loopCount.val();
 var runWorker;
@@ -74,7 +74,7 @@ function appendAlgoToList() {
 function addAlgo(name, visible) {
     var index = algorithms.push({
         name: name,
-        main: defaultAlgo,
+        main: Algo_template,
         series: undefined,
         visible: visible
     });
@@ -94,12 +94,20 @@ function updateSeries() {
 function clear() {
     algorithms.forEach(algo => algo.series = undefined);
     chart.updateSeries([], false);
-    $logList.text("");
+    $("#log-container").text("");
 }
 
-function log(data, info, type = "") {
-    var infoEl = `<span class="float-right">${info}</span>`;
-    $logList.append(`<li class="list-group-item ${type}">${data + infoEl}</li>`);
+function createLogList(header) {
+    var $logList = $('<ul class="list-group mb-3"></ul>').appendTo("#log-container");
+    var $removeEl = $('<a class="float-right"><i class="fas fa-trash"></i></a>').click(() => $logList.remove());
+    log($logList, header, $removeEl, "list-group-item-primary");
+    return $logList;
+}
+
+function log($logList, data, info, className = "") {
+    if (typeof (info) == "string") info = `<span class="float-right">${info}</span>`;
+    var $listItem = $(`<li class="list-group-item ${className}">${data}</li>`);
+    $logList.append($listItem.append(info));
 }
 
 // chart function -------
@@ -133,11 +141,12 @@ function cancel() {
 async function exec() {
     resetMainSeries();
     await sendToWorker(getAlgo());
-    log(getAlgo("name"), "time", "list-group-item-primary");
+
+    var $logList = createLogList(getAlgo("name"));
 
     for (let i = 0; i < loopCount; i++) {
         var { time, output } = await sendToWorker();
-        log(output, time.toFixed(1));
+        log($logList, output, time.toFixed(1));
         await appendToChart(time.toFixed(1));
     }
 }
