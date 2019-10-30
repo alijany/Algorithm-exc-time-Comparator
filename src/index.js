@@ -13,16 +13,13 @@ import RunWorker from "./run.worker";
 // ***************************
 function sendToWorker(massage) {
     runWorker.postMessage(massage);
-    return new Promise(resolve => {
-        sendToWorker.resolve = resolve
-    });
+    return new Promise(resolve => sendToWorker.resolve = resolve);
 }
 
 function createWorker() {
     runWorker = new RunWorker();
-    runWorker.onmessage = function (response) {
-        sendToWorker.resolve(response.data);
-    };
+    runWorker.onmessage = (response) => sendToWorker.resolve(response.data);
+
 }
 // ***************************
 
@@ -71,7 +68,7 @@ function appendAlgoToList() {
         </div>
         `
     });
-    $algoList.html($(temp));
+    $algoList.html(temp);
 }
 
 function addAlgo(name, visible) {
@@ -101,7 +98,7 @@ function clear() {
 }
 
 function log(data, info, type = "") {
-    var infoEl = `<span class="float-right">${info}</span>`
+    var infoEl = `<span class="float-right">${info}</span>`;
     $logList.append(`<li class="list-group-item ${type}">${data + infoEl}</li>`);
 }
 
@@ -119,9 +116,11 @@ function resetMainSeries() {
         data: [],
         name: getAlgo("name")
     }, "series");
+
     algorithms.forEach(algo => {
         if (algo.series) newSeries.push(algo.series);
     });
+
     series = newSeries;
 }
 
@@ -132,8 +131,6 @@ function cancel() {
 }
 
 async function exec() {
-    $("#Run").off('click').click(cancel).html('<i class="fas fa-stop"></i>');
-
     resetMainSeries();
     await sendToWorker(getAlgo());
     log(getAlgo("name"), "time", "list-group-item-primary");
@@ -143,8 +140,6 @@ async function exec() {
         log(output, time.toFixed(1));
         await appendToChart(time.toFixed(1));
     }
-
-    $("#Run").off('click').click(run).html('<i class="fas fa-play"></i>');
 }
 
 async function execAll() {
@@ -157,9 +152,13 @@ async function execAll() {
     }
 }
 
-function run() {
-    if (runMode == "All") execAll();
-    else exec();
+async function run() {
+    $("#Run").off('click').click(cancel).html('<i class="fas fa-stop"></i>');
+
+    if (runMode == "All") await execAll();
+    else await exec();
+
+    $("#Run").off('click').click(run).html('<i class="fas fa-play"></i>');
 }
 
 // initialize user interface ---
