@@ -58,10 +58,9 @@ function switchAlgo(index, el) {
     updateSeries();
     chart.updateSeries(series, false);
     if (!isVisible)
-        $(".u-" + index).show();
+        $(".log-" + index).show();
     else
-        $(".u-" + index).hide();
-
+        $(".log-" + index).hide();
 }
 
 function appendAlgoToList() {
@@ -149,7 +148,7 @@ async function exec() {
     resetMainSeries();
     await sendToWorker(getAlgo());
 
-    var $logList = createLogList(getAlgo("name"), "u-" + editorAlgoIndex);
+    var $logList = createLogList(getAlgo("name"), "log-" + editorAlgoIndex);
 
     for (let i = 0; i < loopCount; i++) {
         var { time, output } = await sendToWorker();
