@@ -132,7 +132,7 @@ function resetMainSeries() {
     }, "series");
 
     algorithms.forEach(algo => {
-        if (algo.series) newSeries.push(algo.series);
+        if (algo.series && algo.visible) newSeries.push(algo.series);
     });
 
     series = newSeries;
