@@ -25,8 +25,7 @@ function createWorker() {
 
 var $algoList = $("#mainAlgorithm");
 var $loopCount = $("#inputLoop");
-// var $logList = $("#log-list");
-var currentAlgo = 0;
+var editorAlgoIndex = 0;
 var loopCount = $loopCount.val();
 var runWorker;
 var runMode = 'current';
@@ -35,18 +34,18 @@ var series = [];
 
 // editor functions -----
 
-function getAlgo(prop = "main", index = currentAlgo) {
+function getAlgo(prop = "main", index = editorAlgoIndex) {
     return algorithms[index][prop];
 }
 
-function setAlgo(value, prop = "main", index = currentAlgo) {
+function setAlgo(value, prop = "main", index = editorAlgoIndex) {
     algorithms[index][prop] = value;
 }
 
 function changeAlgoTo(index) {
     algorithmIsSwitched = true;
     editor.setValue(algorithms[index].main);
-    currentAlgo = index;
+    editorAlgoIndex = index;
 }
 
 // ninja function :P
@@ -55,6 +54,14 @@ function switchAlgo(index, el) {
     el.html(`<i class="far fa-eye${isVisible}"></i>`)
         .next().prop('disabled', function (i, v) { return !v; });;
     setAlgo(!isVisible, "visible", index);
+
+    updateSeries();
+    chart.updateSeries(series, false);
+    if (!isVisible)
+        $(".u-" + index).show();
+    else
+        $(".u-" + index).hide();
+
 }
 
 function appendAlgoToList() {
@@ -85,7 +92,7 @@ function addAlgo(name, visible) {
 function updateSeries() {
     series = [];
     algorithms.forEach(algo => {
-        if (algo.series)
+        if (algo.series && algo.visible)
             series.push(algo.series);
     });
 }
@@ -97,10 +104,10 @@ function clear() {
     $("#log-container").text("");
 }
 
-function createLogList(header) {
-    var $logList = $('<ul class="list-group mb-3"></ul>').appendTo("#log-container");
-    var $removeEl = $('<a class="float-right"><i class="fas fa-trash"></i></a>').click(() => $logList.remove());
-    log($logList, header, $removeEl, "list-group-item-primary");
+function createLogList(header, className = "") {
+    var $logList = $(`<ul class="list-group mb-3 ${className}"></ul>`).appendTo("#log-container");
+    var $remove = $('<a class="float-right"><i class="fas fa-trash"></i></a>').click(() => $logList.remove());
+    log($logList, header, $remove, "list-group-item-primary");
     return $logList;
 }
 
@@ -142,7 +149,7 @@ async function exec() {
     resetMainSeries();
     await sendToWorker(getAlgo());
 
-    var $logList = createLogList(getAlgo("name"));
+    var $logList = createLogList(getAlgo("name"), "u-" + editorAlgoIndex);
 
     for (let i = 0; i < loopCount; i++) {
         var { time, output } = await sendToWorker();
@@ -165,7 +172,7 @@ async function run() {
     $("#Run").off('click').click(cancel).html('<i class="fas fa-stop"></i>');
 
     if (runMode == "All") await execAll();
-    else await exec();
+    else if (getAlgo("visible")) await exec();
 
     $("#Run").off('click').click(run).html('<i class="fas fa-play"></i>');
 }

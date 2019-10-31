@@ -31,6 +31,9 @@ var chartOptions = {
         }
     },
     legend: {
+        onItemHover: {
+            highlightDataSeries: false
+        },
         position: 'top',
         horizontalAlign: 'right',
     }
