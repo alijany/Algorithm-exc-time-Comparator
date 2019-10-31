@@ -105,7 +105,7 @@ function clear() {
 
 function createLogList(header, className = "") {
     var $logList = $(`<ul class="list-group mb-3 ${className}"></ul>`).appendTo("#log-container");
-    var $remove = $('<a class="float-right"><i class="fas fa-trash"></i></a>').click(() => $logList.remove());
+    var $remove = $('<a href="#" class="float-right"><i class="fas fa-trash"></i></a>').click(() => $logList.remove());
     log($logList, header, $remove, "list-group-item-primary");
     return $logList;
 }

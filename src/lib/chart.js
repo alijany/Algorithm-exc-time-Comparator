@@ -31,6 +31,7 @@ var chartOptions = {
         }
     },
     legend: {
+        showForSingleSeries: true,
         onItemHover: {
             highlightDataSeries: false
         },
