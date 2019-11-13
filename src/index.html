@@ -22,20 +22,17 @@
 
             <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                 <div class="navbar-nav">
-                    <a href="https://github.com/alijany/Algorithm-design" target="_blank" class="nav-item text-light nav-link"><i class="fab fa-github"></i> Github</a>
+                    <a href="https://github.com/alijany/Algorithm-design" target="_blank"
+                        class="nav-item text-light nav-link"><i class="fab fa-github"></i> Github</a>
                 </div>
                 <div class="btn-group float-right">
-                    <button id="new-algo" type="button" class="btn btn-light">
-                        <i class="far fa-plus-square"></i>
-                    </button>
-                    <button class="btn btn-light dropdown-toggle " type="button" id="dropdownMenuButton"
+                    <button class="btn btn-light dropdown-toggle " type="button" id="selectAssignment"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Algorithms
+                        Assignment
                     </button>
                     <div class="dropdown ">
-                        <div class="dropdown-menu dropdown-menu-right" id="mainAlgorithm"
-                            aria-labelledby="dropdownMenuButton">
-
+                        <div class="dropdown-menu dropdown-menu-right" id="Assignments"
+                            aria-labelledby="selectAssignment">
                         </div>
                     </div>
                 </div>
@@ -53,7 +50,23 @@
                 <div class="col-lg-6 col-12 p-0 h-100">
                     <div id="code" class="h-100 position-absolute"></div>
                     <div class="position-absolute panels-menu">
-                        <button type="button" class="btn btn-primary ml-3 my-3" data-toggle="modal"
+
+                        <div class="btn-group ml-3 my-3 position-relative">
+                            <button id="new-algo" type="button" class="btn btn-light">
+                                <i class="far fa-plus-square"></i>
+                            </button>
+                            <button class="btn btn-light dropdown-toggle " type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Algorithms
+                            </button>
+                            <div class="dropdown ">
+                                <div class="dropdown-menu dropdown-menu-right" id="mainAlgorithm"
+                                    aria-labelledby="dropdownMenuButton">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-primary ml-1" data-toggle="modal"
                             data-target="#exampleModal"><i class="fas fa-cog"></i></button>
 
                         <button type="button" id="Update" class="btn ml-1 btn-primary" disabled>
