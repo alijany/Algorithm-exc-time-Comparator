@@ -33,8 +33,16 @@ var algorithmIsSwitched = false;
 var series = [];
 var algorithm;
 
+function appendAssignmentsToDropDown() {
+    var temp = ''
+    for (var i = 0; i < algorithms.length; i++) {
+        temp += `<a class="dropdown-item" data-val="${i}" href="#">Series ${i}</a>`
+    }
+    $("#Assignments").html(temp);
+}
+
 function selectAssignment(index) {
-    algorithm = algorithms[index];    
+    algorithm = algorithms[index];
     appendAlgoToList();
     editor.setValue(getAlgo());
     updateSeries();
@@ -188,6 +196,7 @@ async function run() {
 // initialize user interface ---s
 
 createWorker();
+appendAssignmentsToDropDown();
 selectAssignment(0);
 
 
@@ -198,6 +207,12 @@ $("#loader").removeClass("d-flex").hide();
 $("#Ok").click(function () {
     loopCount = $loopCount.val();
 });
+
+$("#Assignments").on('click', 'a', function () {
+    algorithmIsSwitched = true;
+    var index = $(this).data("val");
+    selectAssignment(index);
+})
 
 $("#mainAlgorithm").on('click', '.select', function () {
     var index = $(this).parent().data("val");
