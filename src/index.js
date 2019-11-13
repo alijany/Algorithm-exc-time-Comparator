@@ -36,7 +36,7 @@ var algorithm;
 function appendAssignmentsToDropDown() {
     var temp = ''
     for (var i = 0; i < algorithms.length; i++) {
-        temp += `<a class="dropdown-item" data-val="${i}" href="#">Series ${i}</a>`
+        temp += `<a class="dropdown-item" data-val="${i}" href="#">Series ${i+1}</a>`
     }
     $("#Assignments").html(temp);
 }
@@ -197,7 +197,7 @@ async function run() {
 
 createWorker();
 appendAssignmentsToDropDown();
-selectAssignment(0);
+selectAssignment(1);
 
 
 // event listeners --------------
