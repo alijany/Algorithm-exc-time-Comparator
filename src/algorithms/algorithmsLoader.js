@@ -2,14 +2,13 @@
 
 import algo1 from '!!raw-loader!./fibonacci1.js';
 import algo2 from '!!raw-loader!./fibonacci2.js';
-
 import algo3 from '!!raw-loader!./primeNumber1.js';
 import algo4 from '!!raw-loader!./primeNumber2.js';
 import algo5 from '!!raw-loader!./primeNumber3.js';
 import algo6 from '!!raw-loader!./power1.js';
 import algo7 from '!!raw-loader!./power2.js';
 
-export var algorithms = [
+var algorithms_assignment1 = [
     { name: "عدد اول عادی", main: algo3, series: undefined, visible: true },
     { name: "عدد اول فرد", main: algo4, series: undefined, visible: true },
     { name: "عدد اول رادیکالی", main: algo5, series: undefined, visible: true },
@@ -20,3 +19,10 @@ export var algorithms = [
 ];
 
 
+var algorithms_assignment2 = [
+    { name: "عدد اول رادیکالی", main: algo5, series: undefined, visible: true },
+    { name: "عدد اول فرد", main: algo4, series: undefined, visible: true },
+    { name: "عدد اول عادی", main: algo3, series: undefined, visible: true }
+];
+
+export var algorithms = [algorithms_assignment1, algorithms_assignment2];

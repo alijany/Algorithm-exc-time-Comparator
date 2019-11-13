@@ -31,20 +31,29 @@ var runWorker;
 var runMode = 'current';
 var algorithmIsSwitched = false;
 var series = [];
+var algorithm;
+
+function selectAssignment(index) {
+    algorithm = algorithms[index];    
+    appendAlgoToList();
+    editor.setValue(getAlgo());
+    updateSeries();
+    chart.updateSeries(series, false);
+}
 
 // editor functions -----
 
 function getAlgo(prop = "main", index = editorAlgoIndex) {
-    return algorithms[index][prop];
+    return algorithm[index][prop];
 }
 
 function setAlgo(value, prop = "main", index = editorAlgoIndex) {
-    algorithms[index][prop] = value;
+    algorithm[index][prop] = value;
 }
 
 function changeAlgoTo(index) {
     algorithmIsSwitched = true;
-    editor.setValue(algorithms[index].main);
+    editor.setValue(algorithm[index].main);
     editorAlgoIndex = index;
 }
 
@@ -65,7 +74,7 @@ function switchAlgo(index, el) {
 
 function appendAlgoToList() {
     var temp = '';
-    algorithms.forEach((algo, index) => {
+    algorithm.forEach((algo, index) => {
         var isVisible = algo.visible ? "" : "-slash";
         temp += `
         <div class="btn-group w-100" data-val="${index}">
@@ -78,7 +87,7 @@ function appendAlgoToList() {
 }
 
 function addAlgo(name, visible) {
-    var index = algorithms.push({
+    var index = algorithm.push({
         name: name,
         main: Algo_template,
         series: undefined,
@@ -90,7 +99,7 @@ function addAlgo(name, visible) {
 
 function updateSeries() {
     series = [];
-    algorithms.forEach(algo => {
+    algorithm.forEach(algo => {
         if (algo.series && algo.visible)
             series.push(algo.series);
     });
@@ -98,7 +107,7 @@ function updateSeries() {
 
 // main functions --------
 function clear() {
-    algorithms.forEach(algo => algo.series = undefined);
+    algorithm.forEach(algo => algo.series = undefined);
     chart.updateSeries([], false);
     $("#log-container").text("");
 }
@@ -131,7 +140,7 @@ function resetMainSeries() {
         name: getAlgo("name")
     }, "series");
 
-    algorithms.forEach(algo => {
+    algorithm.forEach(algo => {
         if (algo.series && algo.visible) newSeries.push(algo.series);
     });
 
@@ -159,7 +168,7 @@ async function exec() {
 
 async function execAll() {
     clear();
-    for (var index = 0; index < algorithms.length; index++) {
+    for (var index = 0; index < algorithm.length; index++) {
         if (getAlgo("visible", index)) {
             changeAlgoTo(index);
             await exec();
@@ -176,13 +185,10 @@ async function run() {
     $("#Run").off('click').click(run).html('<i class="fas fa-play"></i>');
 }
 
-// initialize user interface ---
+// initialize user interface ---s
 
 createWorker();
-appendAlgoToList();
-editor.setValue(getAlgo());
-updateSeries();
-chart.updateSeries(series, false);
+selectAssignment(0);
 
 
 // event listeners --------------
