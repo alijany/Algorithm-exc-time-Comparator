@@ -10,23 +10,23 @@ import 'codemirror/addon/hint/javascript-hint';
 
 import 'codemirror/addon/display/panel.js';
 
-import 'codemirror/addon/lint/lint.js'
-import 'codemirror/addon/lint/lint.css'
-import 'codemirror/addon/lint/javascript-lint.js'
+import 'codemirror/addon/lint/lint.js';
+import 'codemirror/addon/lint/lint.css';
+import 'codemirror/addon/lint/javascript-lint.js';
 
 import { JSHINT } from 'jshint';
 window.JSHINT = JSHINT;
 
-export var editor = CodeMirror($("#code")[0], {
-    value: "",
-    mode: "javascript",
-    theme: "material",
+export var editor = CodeMirror($('#code')[0], {
+    value: '',
+    mode: 'javascript',
+    theme: 'material',
     lineNumbers: true,
     lineWrapping: true,
     lint: true,
     gutters: ['CodeMirror-lint-markers'],
-    extraKeys: { "Ctrl-Space": "autocomplete" }
+    extraKeys: { 'Ctrl-Space': 'autocomplete' }
 });
 
-editor.setSize("auto", "100%");
+editor.setSize('auto', '100%');
 

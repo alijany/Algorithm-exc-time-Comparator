@@ -12,7 +12,7 @@ algorithm = {
     run: function () {
         var num = this.numbers[this.i];
         for (var i = 2; i < num; i++)
-            if (num % i === 0) return num + " : isn't prime";
-        return num + " : is prime";
+            if (num % i === 0) return num + ' : isn\'t prime';
+        return num + ' : is prime';
     }
 };

@@ -13,10 +13,10 @@ algorithm = {
             return base;
 
         if (n % 2 == 0) {
-            power = this.power(base, n / 2);
+            let power = this.power(base, n / 2);
             return multiply(power, power);
         } else {
-            power = this.power(base, n - 1);
+            let power = this.power(base, n - 1);
             return multiply(base, power);
         }
     },

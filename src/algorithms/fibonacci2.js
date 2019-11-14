@@ -20,8 +20,8 @@ algorithm = {
             a = b;
             b = sum;
             if (sum == number)
-                return  number + " : is fibo";
+                return  number + ' : is fibo';
         } while (sum <= number);
-        return number + " : isn't fibo";
+        return number + ' : isn\'t fibo';
     }
 };

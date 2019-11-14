@@ -1,5 +1,6 @@
 var algo;
 
+// eslint-disable-next-line no-unused-vars
 function multiply(a, b) {
     var sum = 0;
     for (var j = 0; j < a; j++) {
@@ -10,9 +11,9 @@ function multiply(a, b) {
 
 onmessage = function (event) {
     if (event.data) {
-        algo = eval("var algorithm;" + event.data);
+        algo = eval('var algorithm;' + event.data);
         algo.initialize();
-        postMessage("algorithm initialized");
+        postMessage('algorithm initialized');
     } else {
         var startTime, endTime, time = 0;
         var output;
@@ -28,4 +29,4 @@ onmessage = function (event) {
             output : output
         });
     }
-}
+};

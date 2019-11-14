@@ -38,7 +38,7 @@ var chartOptions = {
         position: 'top',
         horizontalAlign: 'right',
     }
-}
+};
 
-export var chart = new ApexCharts($("#chart")[0], chartOptions);
+export var chart = new ApexCharts($('#chart')[0], chartOptions);
 chart.render();
