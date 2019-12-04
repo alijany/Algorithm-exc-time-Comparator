@@ -31,20 +31,37 @@ var runWorker;
 var runMode = 'current';
 var algorithmIsSwitched = false;
 var series = [];
+var algorithm;
+
+function appendAssignmentsToDropDown() {
+    var temp = ''
+    for (var i = 0; i < algorithms.length; i++) {
+        temp += `<a class="dropdown-item" data-val="${i}" href="#">Series ${i+1}</a>`
+    }
+    $("#Assignments").html(temp);
+}
+
+function selectAssignment(index) {
+    algorithm = algorithms[index];
+    appendAlgoToList();
+    editor.setValue(getAlgo());
+    updateSeries();
+    chart.updateSeries(series, false);
+}
 
 // editor functions -----
 
-function getAlgo(prop = 'main', index = editorAlgoIndex) {
-    return algorithms[index][prop];
+function getAlgo(prop = "main", index = editorAlgoIndex) {
+    return algorithm[index][prop];
 }
 
-function setAlgo(value, prop = 'main', index = editorAlgoIndex) {
-    algorithms[index][prop] = value;
+function setAlgo(value, prop = "main", index = editorAlgoIndex) {
+    algorithm[index][prop] = value;
 }
 
 function changeAlgoTo(index) {
     algorithmIsSwitched = true;
-    editor.setValue(algorithms[index].main);
+    editor.setValue(algorithm[index].main);
     editorAlgoIndex = index;
 }
 
@@ -65,8 +82,8 @@ function switchAlgo(index, el) {
 
 function appendAlgoToList() {
     var temp = '';
-    algorithms.forEach((algo, index) => {
-        var isVisible = algo.visible ? '' : '-slash';
+    algorithm.forEach((algo, index) => {
+        var isVisible = algo.visible ? "" : "-slash";
         temp += `
         <div class="btn-group w-100" data-val="${index}">
             <button class="btn btn-light remove"><i class="far fa-eye${isVisible}"></i></button>
@@ -78,7 +95,7 @@ function appendAlgoToList() {
 }
 
 function addAlgo(name, visible) {
-    var index = algorithms.push({
+    var index = algorithm.push({
         name: name,
         main: Algo_template,
         series: undefined,
@@ -90,7 +107,7 @@ function addAlgo(name, visible) {
 
 function updateSeries() {
     series = [];
-    algorithms.forEach(algo => {
+    algorithm.forEach(algo => {
         if (algo.series && algo.visible)
             series.push(algo.series);
     });
@@ -98,7 +115,7 @@ function updateSeries() {
 
 // main functions --------
 function clear() {
-    algorithms.forEach(algo => algo.series = undefined);
+    algorithm.forEach(algo => algo.series = undefined);
     chart.updateSeries([], false);
     $('#log-container').text('');
 }
@@ -131,7 +148,7 @@ function resetMainSeries() {
         name: getAlgo('name')
     }, 'series');
 
-    algorithms.forEach(algo => {
+    algorithm.forEach(algo => {
         if (algo.series && algo.visible) newSeries.push(algo.series);
     });
 
@@ -159,8 +176,8 @@ async function exec() {
 
 async function execAll() {
     clear();
-    for (var index = 0; index < algorithms.length; index++) {
-        if (getAlgo('visible', index)) {
+    for (var index = 0; index < algorithm.length; index++) {
+        if (getAlgo("visible", index)) {
             changeAlgoTo(index);
             await exec();
         }
@@ -176,13 +193,11 @@ async function run() {
     $('#Run').off('click').click(run).html('<i class="fas fa-play"></i>');
 }
 
-// initialize user interface ---
+// initialize user interface ---s
 
 createWorker();
-appendAlgoToList();
-editor.setValue(getAlgo());
-updateSeries();
-chart.updateSeries(series, false);
+appendAssignmentsToDropDown();
+selectAssignment(1);
 
 
 // event listeners --------------
@@ -193,8 +208,14 @@ $('#Ok').click(function () {
     loopCount = $loopCount.val();
 });
 
-$('#mainAlgorithm').on('click', '.select', function () {
-    var index = $(this).parent().data('val');
+$("#Assignments").on('click', 'a', function () {
+    algorithmIsSwitched = true;
+    var index = $(this).data("val");
+    selectAssignment(index);
+})
+
+$("#mainAlgorithm").on('click', '.select', function () {
+    var index = $(this).parent().data("val");
     changeAlgoTo(index);
 });
 
