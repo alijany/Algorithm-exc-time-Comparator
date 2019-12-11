@@ -6,7 +6,7 @@ algorithm = {
     },
 
     update: function () {
-        this.count += 3;
+        this.count += 2;
     },
 
     hanoi: function (count, source, auxiliary, destination, moves) {
@@ -38,6 +38,7 @@ algorithm = {
     },
 
     run: function () {
-        return this.hanoi(this.count, 'A', 'B', 'C');
+        var moves = this.hanoi(this.count, 'A', 'B', 'C');
+        return 'count: ' + this.count + ' | moves: ' + moves.length;
     }
 };
