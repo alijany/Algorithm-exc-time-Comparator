@@ -197,7 +197,7 @@ async function run() {
 
 createWorker();
 appendAssignmentsToDropDown();
-selectAssignment(1);
+selectAssignment(2);
 
 
 // event listeners --------------
